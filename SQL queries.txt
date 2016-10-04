@@ -1,0 +1,16 @@
+Creating Employee Table
+1)CREATE TABLE IF NOT EXISTS Employee(kinId varchar(7) PRIMARY KEY, name varchar(20), emailId varchar(30) UNIQUE,phoneNo varchar(10) UNIQUE,
+			dateOfBirth DATE, dateOfJoining DATE, address varchar(50),
+			deptId int(6), projectId int(6), roleId int(6), 
+			FOREIGN KEY (deptId) REFERENCES Department(deptId),
+			FOREIGN KEY (projectId) REFERENCES Project(projectId),
+			FOREIGN KEY (roleId) REFERENCES Role(roleId));
+			
+
+			
+2)CREATE TABLE IF NOT EXISTS Department(deptId int(6) PRIMARY KEY, deptName varchar(20),deptDescription varchar(50));
+
+3)CREATE TABLE IF NOT EXISTS Project(projectId int(6) PRIMARY KEY, projectName varchar(20),projectDescription varchar(50),deptId int(6), FOREIGN KEY (deptId) REFERENCES Department(deptId));
+
+4)CREATE TABLE IF NOT EXISTS Role(roleId int(6) PRIMARY KEY, roleName varchar(20),roleDescription varchar(50));
+
