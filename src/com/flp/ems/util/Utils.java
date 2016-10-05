@@ -46,22 +46,7 @@ public class Utils {
 		return date;
 	}
 
-	// CONVERTS SQl DATE TO JAVA DATE
-	public static Date getJavaDateFromSqlDate(java.sql.Date date) {
-
-		java.util.Date utilDate = new java.util.Date(date.getTime());
-
-		return utilDate;
-	}
-
-	// CONVERTS JAVA DATE TO SQL DATE
-	public static Date getSqlDateFromJavaDate(Date date) {
-
-		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-		return sqlDate;
-	}
-
+	
 	// GET PROPERTIES FILE REFERENCE
 	public Properties getProperties() throws IOException {
 		// LOAD PROPERTIES FILE
@@ -103,7 +88,7 @@ public class Utils {
 		return status;
 	}
 
-	private String regenerateEmail(String email) {
+	public String regenerateEmail(String email) {
 		String tmp = "";
 		String name = email.substring(0, email.indexOf("@"));
 		// INCREASE THE NUMBER AT THE END OF EMAIL eg: abc@ems.com ->
@@ -117,6 +102,23 @@ public class Utils {
 		return tmp;
 	}
 
+	
+	public ArrayList<Integer> getIDs(String field){
+		ArrayList<Integer> ids = new ArrayList<>();
+		String selectQuery ;
+		
+		if(field.equals("department")){
+			selectQuery=props.getProperty("jdbc.query.selectDeptIds");
+		}else if(field.equals("project")){
+			selectQuery=props.getProperty("jdbc.query.selectProjectIds");
+		}else if(field.equals("role")){
+			selectQuery=props.getProperty("jdbc.query.selectRolesIds");
+		}else
+			return null;
+		
+		return ids;
+	}
+	
 	public void insertDummyData(Connection dbConnection) throws SQLException {
 		// INSERTING # DUMMY DEPARTMENT DATA
 		String insertQuery = props.getProperty("jdbc.query.insertDepartment");
@@ -214,8 +216,8 @@ public class Utils {
 				insertStatement.setString(2,name[i] );
 				insertStatement.setString(3, email[i]);
 				insertStatement.setString(4, phone[i]);
-				insertStatement.setDate(5, (java.sql.Date)getSqlDateFromJavaDate(getDateFromString(dob[i])));
-				insertStatement.setDate(6, (java.sql.Date)getSqlDateFromJavaDate(getDateFromString(doj[i])));
+				insertStatement.setString(5, dob[i]);
+				insertStatement.setString(6, doj[i]);
 				insertStatement.setString(7, addr[i]);
 				insertStatement.setInt(8, dept[i]);
 				insertStatement.setInt(9, project[i]);

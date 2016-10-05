@@ -1,6 +1,9 @@
 package com.flp.ems.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -21,7 +24,7 @@ public class UserInteraction {
 		boolean status = false;
 
 		// KIN ID auto assigned
-		
+
 		// NAME
 		System.out.println("Enter Employee Name : ");
 		// stringTemp = sc.nextLine();
@@ -29,51 +32,66 @@ public class UserInteraction {
 		employeeData.put(Constants.name, stringTemp);
 
 		// EMAIL ID (Auto generated)
-		// System.out.print("Enter Email ID : ");
-		// temp = sc.next();
-		//stringTemp = "abc@gmail.com";
-		//employeeData.put(Constants.emailId, stringTemp);
 
 		// PHONENO
 		System.out.print("Enter Phone Number : ");
-		// longTemp = sc.nextLong();
+		longTemp = sc.nextLong();
 		longTemp = 8856034584L;
 		employeeData.put(Constants.phoneNo, Long.toString(longTemp));
 
 		// DATE OF BIRTH
-		System.out.print("Enter date of birth (dd/mm/yyyy) : ");
-		// stringTemp = sc.next();
-		stringTemp = "20/02/1996";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = null;
+		System.out.print("Enter date of birth (dd/MM/yyyy) : ");
+		stringTemp = sc.next();
+		try {
+			date = dateFormat.parse(stringTemp);
+		} catch (ParseException e) {
+			System.out.println("Invalid date format");
+			// e.printStackTrace();
+		}
 		employeeData.put(Constants.dateOfBirth, stringTemp);
 
 		// DATE OF JOINING
-		System.out.print("Enter date of joining (dd/mm/yyyy) : ");
-		// stringTemp = sc.next();
+		System.out.print("Enter date of joining (dd/MM/yyyy) : ");
+		stringTemp = sc.next();
 		stringTemp = "01/08/2016";
+		try {
+			date = dateFormat.parse(stringTemp);
+		} catch (ParseException e) {
+			System.out.println("Invalid date format");
+			// e.printStackTrace();
+		}
 		employeeData.put(Constants.dateOfJoining, stringTemp);
 
 		// ADDRESS
 		System.out.print("Enter Address : ");
-		// stringTemp = sc.next();
+		stringTemp = sc.next();
 		stringTemp = "Park Street ,Wakad, Pune";
 		employeeData.put(Constants.address, stringTemp);
 
 		// validate ROLE PROJECT and DEPARTMENT
 
-		// DEPARTMENT DESCRIPTION
+		// DEPARTMENT ID
 		intTemp = 100;
+		System.out.println("Enter Department Id : ");
+		intTemp = sc.nextInt();
 		employeeData.put(Constants.departmentId, Integer.toString(intTemp));
 
 		// PROJECT
 		intTemp = 10;
+		System.out.println("Enter Department Id : ");
+		intTemp = sc.nextInt();
 		employeeData.put(Constants.projectId, Integer.toString(intTemp));
 
 		// ROLE
 		intTemp = 1;
+		System.out.println("Enter Department Id : ");
+		intTemp = sc.nextInt();
 		employeeData.put(Constants.roleId, Integer.toString(intTemp));
 
 		// pass data to next layer
-		//status = services.addEmployee(employeeData);
+		status = services.addEmployee(employeeData);
 		return status;
 	}
 
@@ -90,7 +108,7 @@ public class UserInteraction {
 		while (true) {
 			System.out.println("Select data field to modify : ");
 			System.out.println("1.Name \n2.Email Id \n3.Phone No.\n4.Date of Birth");
-			System.out.println("5.Date of Joining \n6.Department \n7.Project \n8.Role \n9. Exit");
+			System.out.println("5.Date of Joining \n6.Address \n7.Department ID\n8.Project ID \n9.Role ID\n10.Exit");
 			ch = sc.nextInt();
 
 			switch (ch) {
@@ -125,23 +143,29 @@ public class UserInteraction {
 				break;
 
 			case 6:
+				System.out.println("Enter Address :");
+				stringTemp = sc.next();
+				employeeData.put(Constants.address, stringTemp);
+				break;
+
+			case 7:
 				System.out.println("Enter Department Id :");
 				intTemp = sc.nextInt();
 				employeeData.put(Constants.departmentId, Integer.toString(intTemp));
 				break;
 
-			case 7:
+			case 8:
 				System.out.println("Enter Project Id :");
 				intTemp = sc.nextInt();
 				employeeData.put(Constants.projectId, Integer.toString(intTemp));
 				break;
 
-			case 8:
+			case 9:
 				System.out.println("Enter Role Id :");
 				intTemp = sc.nextInt();
 				employeeData.put(Constants.roleId, Integer.toString(intTemp));
 				break;
-			case 9:
+			case 10:
 				break;
 			}
 			if (ch == 9)
@@ -164,36 +188,40 @@ public class UserInteraction {
 		String searchBy = "kinId";
 		String value = "";
 		Employee emp = null;
-		
+
 		System.out.print("Search by : 1.KinId  2.EmailId 3.Name \nEnter option : ");
 		choice = sc.nextInt();
-		
-		switch(choice){
-			case 1: System.out.print("Enter KinId :");
-					value = sc.next();
-					//validate kinId
-					searchBy = Constants.kinId;
-					emp = services.searchEmployee(searchBy, value);
-				break;
-			
-			case 2: System.out.print("Enter KinId :");
-					value = sc.next();
-					//validate emailId
-					searchBy = Constants.emailId;
-					emp = services.searchEmployee(searchBy, value);
-				break;
-				
-			case 3: System.out.print("Enter Name :");
-					value = sc.next();
-					//validate emailId
-					searchBy = Constants.name;
-					emp = services.searchEmployee(searchBy, value);
-				break;
-		
-			default : System.out.println("Wrong selection !!!");
+
+		switch (choice) {
+		case 1:
+			System.out.print("Enter KinId :");
+			value = sc.next();
+			// validate kinId
+			searchBy = Constants.kinId;
+			emp = services.searchEmployee(searchBy, value);
+			break;
+
+		case 2:
+			System.out.print("Enter KinId :");
+			value = sc.next();
+			// validate emailId
+			searchBy = Constants.emailId;
+			emp = services.searchEmployee(searchBy, value);
+			break;
+
+		case 3:
+			System.out.print("Enter Name :");
+			value = sc.next();
+			// validate emailId
+			searchBy = Constants.name;
+			emp = services.searchEmployee(searchBy, value);
+			break;
+
+		default:
+			System.out.println("Wrong selection !!!");
 		}
-			
-		if(emp!=null)
+
+		if (emp != null)
 			printEmployeeData(emp);
 	}
 
@@ -208,8 +236,8 @@ public class UserInteraction {
 				printEmployeeData(emp);
 		}
 	}
-	
-	public void printEmployeeData(Employee emp){
+
+	public void printEmployeeData(Employee emp) {
 		System.out.println("**** \nEmployee Kin ID : " + emp.getKinId());
 		System.out.println("Name : " + emp.getName());
 		System.out.println("Email ID : " + emp.getEmailId());

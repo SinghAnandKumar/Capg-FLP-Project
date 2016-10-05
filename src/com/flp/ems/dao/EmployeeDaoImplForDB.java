@@ -18,15 +18,25 @@ import com.flp.ems.util.Utils;
 
 public class EmployeeDaoImplForDB implements IemployeeDao {
 
+	ArrayList<Integer> existingDepartments = null;
+	ArrayList<Integer> existingProjects = null;
+	ArrayList<Integer> existingRoles = null;
 	Properties props = null;
 	Connection dbConnection = null;
 	Utils utils = null;
 
 	public EmployeeDaoImplForDB() throws IOException, SQLException {
+		existingDepartments = new ArrayList<>();
+		existingProjects = new ArrayList<>();
+		existingRoles = new ArrayList<>();
 		utils = new Utils();
+		
 		props = utils.getProperties();
 
-		// TODO : GET DATABASE CONNECTION USING JDBC URL
+		//READ EXISTING DEPARTMENT,PROJECT,ROLE IDs
+		
+		
+		//GETS DATABASE CONNECTION FROM UTILS CLASS
 		String url = props.getProperty("jdbc.url");
 		dbConnection = DriverManager.getConnection(url);
 		System.out.println("Connection succesfull ? " + (dbConnection != null));
@@ -38,6 +48,7 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 	@Override
 	public boolean addEmployee(Employee employee) {
 		String insertQuery = props.getProperty("jdbc.query.insertEmployee");
+		String email,newEmail= "";
 		int row = 0;
 		boolean status = false;
 
@@ -45,11 +56,17 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 
 			insertStatement.setString(1, employee.getKinId());
 			insertStatement.setString(2, employee.getName());
+			
+			//REGENERATEs EMAIL IF ALREADY EXISTS
+			email = employee.getEmailId();
+			if(!utils.ifEmailNotAssigned(email, dbConnection)){
+				newEmail = utils.regenerateEmail(email);
+			}
+			
 			insertStatement.setString(3, employee.getEmailId());
 			insertStatement.setString(4, Long.toString(employee.getPhoneNo()));
-			insertStatement.setDate(5,(Date) Utils.getSqlDateFromJavaDate(utils.getDateFromString(employee.getDateOfBirth())));
-			// insertStatement.setDate(5, (Date)utils.getDateFromString(employee.getDateOfBirth()));//error
-			insertStatement.setDate(6,(Date) Utils.getSqlDateFromJavaDate(utils.getDateFromString(employee.getDateOfJoining())));
+			insertStatement.setString(5,employee.getDateOfBirth());
+			insertStatement.setString(6,employee.getDateOfJoining());
 			insertStatement.setString(7, employee.getAddress());
 			insertStatement.setInt(8, employee.getDeptId());
 			insertStatement.setInt(9, employee.getProjectId());
@@ -61,12 +78,17 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 			System.out.println(row + " rows added in Employee database");
 
 		} catch (SQLException e) {
-			if (e instanceof SQLIntegrityConstraintViolationException)
-				System.err.println("SQL Integrity Constraint violation. Duplicate entry While adding employee");
+			if (e instanceof SQLIntegrityConstraintViolationException){
+				System.err.println("SQL Integrity Constraint violation. While adding employee");
+				e.printStackTrace();
+			}
 			else {
 				System.out.println("Error while adding new employee");
 				e.printStackTrace();
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return status;
@@ -111,11 +133,15 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 		String selectQuery = "";
 		Employee tempEmp = null;
 
+		//TODO Multiple employee with same name. return array list of employees 
+		
+		
 		if (type.equals(Constants.kinId)) {
 			selectQuery = props.getProperty("jdbc.query.searchEmloyeeOnKinId");
 		} else if (type.equals(Constants.emailId)) {
 			selectQuery = props.getProperty("jdbc.query.searchEmloyeeOnEmailId");
 		} else if (type.equals(Constants.name)) {
+			value="%"+value+"%";
 			selectQuery = props.getProperty("jdbc.query.searchEmloyeeOnName");
 		} else {
 			return null;
@@ -131,10 +157,8 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 				tempEmp.setName(rs.getString(2));
 //				tempEmp.setEmailId(rs.getString(3));
 				tempEmp.setPhoneNo(Long.parseLong(rs.getString(4)));
-				tempEmp.setDateOfBirth(Utils.getJavaDateFromSqlDate(rs.getDate(5)).toString());// **Error
-																								// prone
-				tempEmp.setDateOfJoining(Utils.getJavaDateFromSqlDate(rs.getDate(6)).toString());// **Error
-																									// prone
+				tempEmp.setDateOfBirth(rs.getString(5));
+				tempEmp.setDateOfJoining(rs.getString(6));
 				tempEmp.setAddress(rs.getString(7));
 				tempEmp.setDeptId(rs.getInt(8));
 				tempEmp.setProjectId(rs.getInt(9));
@@ -164,10 +188,8 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 				tempEmp.setName(rs.getString(2));
 //				tempEmp.setEmailId(rs.getString(3));
 				tempEmp.setPhoneNo(Long.parseLong(rs.getString(4)));
-				tempEmp.setDateOfBirth(Utils.getJavaDateFromSqlDate(rs.getDate(5)).toString());// **Error
-																								// prone
-				tempEmp.setDateOfJoining(Utils.getJavaDateFromSqlDate(rs.getDate(6)).toString());// **Error
-																									// prone
+				tempEmp.setDateOfBirth(rs.getString(5));
+				tempEmp.setDateOfJoining(rs.getString(6));
 				tempEmp.setAddress(rs.getString(7));
 				tempEmp.setDeptId(rs.getInt(8));
 				tempEmp.setProjectId(rs.getInt(9));
