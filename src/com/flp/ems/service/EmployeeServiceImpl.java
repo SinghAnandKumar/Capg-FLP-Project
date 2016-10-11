@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.flp.ems.dao.EmployeeDaoImplForDB;
-import com.flp.ems.dao.EmployeeDaoImplForList;
 import com.flp.ems.domain.Employee;
 import com.flp.ems.util.Constants;
 
@@ -37,7 +36,10 @@ public class EmployeeServiceImpl implements IemployeeService {
 
 		// DATA POPULATION IN EMPLOYEE OBJECT
 		employee.setName(employeeData.get(Constants.name));
-//		employee.setEmailId(employeeData.get(Constants.emailId));
+
+		//Auto generating email ID based on name of employee
+		//employee.setEmailId(employeeData.get(Constants.emailId));
+		
 		employee.setPhoneNo(Long.parseLong(employeeData.get(Constants.phoneNo)));
 		employee.setDateOfBirth(employeeData.get(Constants.dateOfBirth));
 		employee.setDateOfJoining(employeeData.get(Constants.dateOfJoining));
@@ -58,9 +60,7 @@ public class EmployeeServiceImpl implements IemployeeService {
 		Set<Map.Entry<String, String>> mapItr = employee.entrySet();
 		for (Map.Entry<String, String> e : mapItr) {
 
-			// can't set kinId
-			// if(e.getKey().equals(Constants.kinId))
-			// emp.setKinId(e.getValue());
+			// USER CAN'T MODIFY KINID, IT IS SET BY THE SYSTEM
 			if (e.getKey().equals(Constants.name))
 				emp.setName(e.getValue());
 			/*else if (e.getKey().equals(Constants.emailId))

@@ -3,7 +3,6 @@ package com.flp.ems.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 
-import sun.security.pkcs11.Secmod.DbMode;
+import com.flp.ems.util.Constants;
 
 public class Utils {
 
@@ -103,24 +102,9 @@ public class Utils {
 	}
 
 	
-	public ArrayList<Integer> getIDs(String field){
-		ArrayList<Integer> ids = new ArrayList<>();
-		String selectQuery ;
-		
-		if(field.equals("department")){
-			selectQuery=props.getProperty("jdbc.query.selectDeptIds");
-		}else if(field.equals("project")){
-			selectQuery=props.getProperty("jdbc.query.selectProjectIds");
-		}else if(field.equals("role")){
-			selectQuery=props.getProperty("jdbc.query.selectRolesIds");
-		}else
-			return null;
-		
-		return ids;
-	}
-	
+//Insert Dummy data 
 	public void insertDummyData(Connection dbConnection) throws SQLException {
-		// INSERTING # DUMMY DEPARTMENT DATA
+		// INSERTING 3 DUMMY DEPARTMENT DATA
 		String insertQuery = props.getProperty("jdbc.query.insertDepartment");
 		int deptId = 100, rows = 0;
 		String deptName[] = { "Development Dept", "Testing Dept", "Marketing Dept" };
