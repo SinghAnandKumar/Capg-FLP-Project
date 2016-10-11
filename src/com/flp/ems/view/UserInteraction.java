@@ -10,7 +10,6 @@ import java.util.Scanner;
 import com.flp.ems.domain.Employee;
 import com.flp.ems.service.EmployeeServiceImpl;
 import com.flp.ems.util.Constants;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class UserInteraction {
 	HashMap<String, String> employeeData = new HashMap<>();
@@ -24,70 +23,75 @@ public class UserInteraction {
 		boolean status = false;
 
 		// KIN ID auto assigned
-
+		// EMAIL ID (Auto generated)
+		
 		// NAME
 		System.out.println("Enter Employee Name : ");
-		// stringTemp = sc.nextLine();
-		stringTemp = "Anand Kumar Singh";
+		stringTemp = sc.nextLine();
 		employeeData.put(Constants.name, stringTemp);
-
-		// EMAIL ID (Auto generated)
 
 		// PHONENO
 		System.out.print("Enter Phone Number : ");
-		longTemp = sc.nextLong();
-		longTemp = 8856034584L;
-		employeeData.put(Constants.phoneNo, Long.toString(longTemp));
+		stringTemp = sc.nextLine();
+		employeeData.put(Constants.phoneNo, stringTemp);
+
 
 		// DATE OF BIRTH
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date date = null;
-		System.out.print("Enter date of birth (dd/MM/yyyy) : ");
-		stringTemp = sc.next();
-		try {
-			date = dateFormat.parse(stringTemp);
-		} catch (ParseException e) {
-			System.out.println("Invalid date format");
-			// e.printStackTrace();
+		while(true){
+			System.out.print("Enter date of birth (dd/MM/yyyy) : ");
+			stringTemp = sc.nextLine();
+			try {
+				date = dateFormat.parse(stringTemp);
+			} catch (ParseException e) {
+				System.out.println("Invalid date format. Re-enter date");
+				continue;
+				// e.printStackTrace();
+			}
+			break;
 		}
 		employeeData.put(Constants.dateOfBirth, stringTemp);
 
+		
 		// DATE OF JOINING
-		System.out.print("Enter date of joining (dd/MM/yyyy) : ");
-		stringTemp = sc.next();
-		stringTemp = "01/08/2016";
-		try {
-			date = dateFormat.parse(stringTemp);
-		} catch (ParseException e) {
-			System.out.println("Invalid date format");
-			// e.printStackTrace();
+		while(true){
+			System.out.print("Enter date of joining (dd/MM/yyyy) : ");
+			stringTemp = sc.nextLine();
+			try {
+				date = dateFormat.parse(stringTemp);
+			} catch (ParseException e) {
+				System.out.println("Invalid date format. Re-enter date");
+				continue;
+				// e.printStackTrace();
+			}
+			break;
 		}
 		employeeData.put(Constants.dateOfJoining, stringTemp);
 
 		// ADDRESS
 		System.out.print("Enter Address : ");
-		stringTemp = sc.next();
-		stringTemp = "Park Street ,Wakad, Pune";
+		stringTemp = sc.nextLine();
 		employeeData.put(Constants.address, stringTemp);
 
 		// validate ROLE PROJECT and DEPARTMENT
 
 		// DEPARTMENT ID
-		intTemp = 100;
 		System.out.println("Enter Department Id : ");
 		intTemp = sc.nextInt();
+		sc.nextLine();
 		employeeData.put(Constants.departmentId, Integer.toString(intTemp));
 
 		// PROJECT
-		intTemp = 10;
-		System.out.println("Enter Department Id : ");
+		System.out.println("Enter Project Id : ");
 		intTemp = sc.nextInt();
+		sc.nextLine();
 		employeeData.put(Constants.projectId, Integer.toString(intTemp));
 
 		// ROLE
-		intTemp = 1;
-		System.out.println("Enter Department Id : ");
+		System.out.println("Enter role Id : ");
 		intTemp = sc.nextInt();
+		sc.nextLine();
 		employeeData.put(Constants.roleId, Integer.toString(intTemp));
 
 		// pass data to next layer
@@ -114,55 +118,58 @@ public class UserInteraction {
 			switch (ch) {
 			case 1:
 				System.out.println("Enter Name : ");
-				stringTemp = sc.next();
+				stringTemp = sc.nextLine();
 				employeeData.put(Constants.name, stringTemp);
 				break;
 
 			case 2:
 				System.out.println("Enter Email Id : ");
-				stringTemp = sc.next();
+				stringTemp = sc.nextLine();
 				employeeData.put(Constants.emailId, stringTemp.toLowerCase());
 				break;
 
 			case 3:
 				System.out.println("Enter Phone No :");
-				longTemp = sc.nextLong();
-				employeeData.put(Constants.phoneNo, Long.toString(longTemp));
+				stringTemp = sc.nextLine();
+				employeeData.put(Constants.phoneNo, stringTemp);
 				break;
 
 			case 4:
 				System.out.println("Enter Date of Birth :");
-				stringTemp = sc.next();
+				stringTemp = sc.nextLine();
 				employeeData.put(Constants.dateOfBirth, stringTemp);
 				break;
 
 			case 5:
 				System.out.println("Enter Date of Joining :");
-				stringTemp = sc.next();
+				stringTemp = sc.nextLine();
 				employeeData.put(Constants.dateOfJoining, stringTemp);
 				break;
 
 			case 6:
 				System.out.println("Enter Address :");
-				stringTemp = sc.next();
+				stringTemp = sc.nextLine();
 				employeeData.put(Constants.address, stringTemp);
 				break;
 
 			case 7:
 				System.out.println("Enter Department Id :");
 				intTemp = sc.nextInt();
+				sc.nextLine();
 				employeeData.put(Constants.departmentId, Integer.toString(intTemp));
 				break;
 
 			case 8:
 				System.out.println("Enter Project Id :");
 				intTemp = sc.nextInt();
+				sc.nextLine();
 				employeeData.put(Constants.projectId, Integer.toString(intTemp));
 				break;
 
 			case 9:
 				System.out.println("Enter Role Id :");
 				intTemp = sc.nextInt();
+				sc.nextLine();
 				employeeData.put(Constants.roleId, Integer.toString(intTemp));
 				break;
 			case 10:
@@ -177,7 +184,7 @@ public class UserInteraction {
 
 	public boolean removeEmployee() {
 		boolean status = false;
-		System.out.println("Enter Employee ID to be removed : ");
+		System.out.println("Enter Kin ID : ");
 		String kinId = sc.next();
 		status = services.removeEmployee(kinId);
 		return status;
@@ -238,7 +245,7 @@ public class UserInteraction {
 	}
 
 	public void printEmployeeData(Employee emp) {
-		System.out.println("**** \nEmployee Kin ID : " + emp.getKinId());
+		System.out.println("*************************************** \nEmployee Kin ID : " + emp.getKinId());
 		System.out.println("Name : " + emp.getName());
 		System.out.println("Email ID : " + emp.getEmailId());
 		System.out.println("Phone No. : " + emp.getPhoneNo());
@@ -247,6 +254,6 @@ public class UserInteraction {
 		System.out.println("Address : " + emp.getAddress());
 		System.out.println("Department ID : " + emp.getDeptId());
 		System.out.println("Project ID : " + emp.getProjectId());
-		System.out.println("Role ID : " + emp.getRoleId() + "****\n\n");
+		System.out.println("Role ID : " + emp.getRoleId() + "\n****************************************\n");
 	}
 }

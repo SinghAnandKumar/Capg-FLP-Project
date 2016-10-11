@@ -27,13 +27,16 @@ public class BootClass {
 
 	public static void menuSelection() throws InvalidMenuSelectionException {
 		Scanner sc = new Scanner(System.in);
+		String ch ="";
 		int choice = -1;
 		boolean opstatus = false;
 		
 
 		System.out.println("Enter option : ");
-		choice = sc.nextInt();
-
+		ch = sc.nextLine();
+		
+		choice = Integer.parseInt(ch);
+		
 		if (!(choice > 0 && choice < 6))
 			throw new InvalidMenuSelectionException();
 		else {

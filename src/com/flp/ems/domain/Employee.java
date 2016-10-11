@@ -4,7 +4,7 @@ import com.flp.ems.util.Constants;
 
 public class Employee implements Cloneable {
 	
-	private static int counter = 0;
+	private int empId = 0;
 	private String kinId = "NA";
 	private String name = "NA";
 	private String emailId = "NA";
@@ -17,14 +17,6 @@ public class Employee implements Cloneable {
 	private int roleId = -1;
 
 	public Employee() {
-		counter++;
-		this.kinId = Constants.Suffix+counter;
-	}
-	
-	//USED WHILE FETCHING DATA FROM DATABSE
-	public Employee(String kinId, String emailId) {
-		this.kinId = kinId;
-		this.emailId = emailId;
 	}
 
 	//IF EMAIL IS AUTO GENERATED CALL THIS CONSTRUCTOR
@@ -41,13 +33,30 @@ public class Employee implements Cloneable {
 		this.projectId = projectId;
 		this.roleId = roleId;
 	}
+
+	
+	public int getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
 	public String getKinId() {
 		return kinId;
 	}
+	
+	public void setKinId(String kinId) {
+		this.kinId = kinId;
+	}
 
-//	public void setKinId(String kinId) {
-//		this.kinId = kinId;
-//	}
+
 
 	public String getName() {
 		return name;

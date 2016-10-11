@@ -3,7 +3,6 @@ package com.flp.ems.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,8 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
-
-import sun.security.pkcs11.Secmod.DbMode;
 
 public class Utils {
 
@@ -62,7 +59,7 @@ public class Utils {
 
 	// VERIFYING THE AUTO ASSIGNED EMAIL IS UNIQUE, IF NOT SUFFIX SOME NUMBER
 	public boolean ifEmailNotAssigned(String email, Connection dbConnection) throws IOException, SQLException {
-		boolean status = false;
+		boolean status = true;
 		// ArrayList<String> mails = new ArrayList<>();
 		props = (new Utils()).getProperties();
 		String tempEmail = "";
@@ -75,15 +72,15 @@ public class Utils {
 				// mails.add(rs.getString(1));
 				tempEmail = rs.getString(1);
 				if (email.equals(tempEmail)) {
-					status = true;
+					status = false;
 					break;
 				}
 			}
 
 		}
 
-		if (status)
-			regenerateEmail(tempEmail);
+//		if (status)
+//			regenerateEmail(tempEmail);
 
 		return status;
 	}
@@ -198,7 +195,7 @@ public class Utils {
 		// INSERTING 3 DUMMY ROWS IN EMPLOYEE for TESTING
 		insertQuery = props.getProperty("jdbc.query.insertEmployee");
 		rows = 0;
-		String kinId[]={"EMS01","EMS02","EMS03"};
+		String kinId[]={"EMS000001","EMS000002","EMS000003"};
 		String name[] ={"Anand Kumar Singh","Swapnil Ingale", "Rohit Singh"};
 		String email[] ={"anandkumarsingh@ems.com","swapnilingale@ems.com", "rohitsingh@ems.com"};
 		String phone[] ={"8856076895","8965324512","7894561230"};
@@ -209,7 +206,7 @@ public class Utils {
 		int project[] = {10, 11, 12};
 		int role[] = {1, 2, 3};
 
-		try (PreparedStatement insertStatement = dbConnection.prepareStatement(insertQuery)) {
+		try (PreparedStatement insertStatement = dbConnection.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS)) {
 			
 			for(int i=0;i<name.length;i++){
 				insertStatement.setString(1, kinId[i]);
@@ -227,6 +224,8 @@ public class Utils {
 				} catch (Exception e) {
 					if (e instanceof SQLIntegrityConstraintViolationException)
 						System.out.println("Integrity Violation");
+					else
+						e.printStackTrace();
 				} finally {
 					System.out.println(rows + " rows inserted in Employee");
 				}

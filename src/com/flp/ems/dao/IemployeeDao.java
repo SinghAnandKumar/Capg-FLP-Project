@@ -13,7 +13,7 @@ public interface IemployeeDao {
 
 	public Employee searchEmployee(String type,String value);
 	
-	//public void insertDummyData() throws SQLException;
+	public Employee searchEmployeeById(int empId);
 	
 	public ArrayList<Employee> getAllEmployees();
 }

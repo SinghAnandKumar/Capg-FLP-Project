@@ -1,6 +1,8 @@
 Creating Employee Table
-1)CREATE TABLE IF NOT EXISTS Employee(kinId varchar(7) PRIMARY KEY, name varchar(20), emailId varchar(30) UNIQUE,phoneNo varchar(10) UNIQUE,
-			dateOfBirth DATE, dateOfJoining DATE, address varchar(50),
+1)CREATE TABLE IF NOT EXISTS Employee(empId int(5) zerofill AUTO_INCREMENT PRIMARY KEY,
+			kinId varchar(9) NOT NULL, name varchar(20) NOT NULL, 
+			emailId varchar(30) UNIQUE,phoneNo varchar(10) UNIQUE,
+			dateOfBirth varchar(12) NOT NULL, dateOfJoining varchar(12) NOT NULL, address varchar(50),
 			deptId int(6), projectId int(6), roleId int(6), 
 			FOREIGN KEY (deptId) REFERENCES Department(deptId),
 			FOREIGN KEY (projectId) REFERENCES Project(projectId),

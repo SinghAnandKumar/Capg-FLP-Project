@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import com.flp.ems.domain.Employee;
 import com.flp.ems.util.Constants;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 public class EmployeeDaoImplForList implements IemployeeDao, Cloneable {
 
@@ -32,7 +31,7 @@ public class EmployeeDaoImplForList implements IemployeeDao, Cloneable {
 
 	@Override /// REMOVING AN EMPLOYEE
 	public boolean removeEmployee(String kinId) {
-		int index = indexOf(Constants.kinId, kinId);
+		int index = indexOf(Constants.empId, kinId);
 		if (index != -1) {
 			employees.remove(index);
 			return true;
@@ -78,7 +77,17 @@ public class EmployeeDaoImplForList implements IemployeeDao, Cloneable {
 		int index = -1;
 		boolean found = false;
 
-		if (type.equals(Constants.kinId)) {
+		if (type.equals(Constants.empId)) {
+			while (itr.hasNext()) {
+				Employee emp = (Employee) itr.next();
+				index++;
+				if (String.valueOf(emp.getEmpId()).equals(value)) {
+					found = true;
+					break;
+				} // end of if
+			} // end of while
+		}
+		else if (type.equals(Constants.kinId)) {
 			while (itr.hasNext()) {
 				Employee emp = (Employee) itr.next();
 				index++;

@@ -4,9 +4,11 @@ package com.flp.ems.util;
 
 public class Constants {
 	
-	public static final String Suffix = "EMS0";
+	public static final String Prefix = "EMS0";
 	public static final String emailSuffix = "ems";
+	
 	//FOR EMPLOYEE
+	public static final String empId = "empId";
 	public static final String kinId = "kinId";
 	public static final String name = "name";
 	public static final String emailId = "emailId";
