@@ -84,35 +84,64 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 
 	@Override
 	public boolean modifyEmployee(Employee employee) {
+		String updateQuery = props.getProperty("jdbc.query.updateEmployee");
+		int row = 0;
 		boolean status = false;
-		// UPDATE QUERY NOT USED AS GIVEN IN DOC
-		status = removeEmployee(employee.getKinId());
+		// UPDATE QUERY NOT USED ,AS GIVEN IN DOC
+		/*status = removeEmployee(employee.getKinId());
 
 		if (status) {
 			status = false;
 			status = addEmployee(employee);
 		}
 
+		return status;*/
+		
+		try (PreparedStatement updateStatement = dbConnection.prepareStatement(updateQuery)) {
+		
+			updateStatement.setString(1, employee.getName());
+			updateStatement.setString(2, Long.toString(employee.getPhoneNo()));
+			updateStatement.setString(3, employee.getDateOfBirth());
+			updateStatement.setString(4, employee.getDateOfJoining());
+			updateStatement.setString(5, employee.getAddress());
+			updateStatement.setInt(6, employee.getDeptId());
+			updateStatement.setInt(7, employee.getProjectId());
+			updateStatement.setInt(8, employee.getEmpId());
+			
+			updateStatement.setInt(9, employee.getEmpId());
+			
+			row = updateStatement.executeUpdate();
+
+			if (row > 0)
+				status = true;
+		}catch (SQLException e) {
+			System.out.println("Error while updating employee");
+			e.printStackTrace();
+		}
+		
 		return status;
 	}
 
 	@Override
-	public boolean removeEmployee(String kinId) {
+	public boolean removeEmployee(String[] kinIds) {
 		String deleteQuery = props.getProperty("jdbc.query.deleteEmployee");
 		int row = 0;
 		boolean status = false;
 
-		try (PreparedStatement deleteStatement = dbConnection.prepareStatement(deleteQuery)) {
-
-			deleteStatement.setString(1, kinId);
-			row = deleteStatement.executeUpdate();
-
-			if (row > 0)
-				status = true;
-		} catch (SQLException e) {
-			System.out.println("Error while removing employee");
-			e.printStackTrace();
+		for(String kinId : kinIds){
+			try (PreparedStatement deleteStatement = dbConnection.prepareStatement(deleteQuery)) {
+	
+				deleteStatement.setString(1, kinId);
+				row = deleteStatement.executeUpdate();
+	
+				if (row > 0)
+					status = true;
+			} catch (SQLException e) {
+				System.out.println("Error while removing employee");
+				e.printStackTrace();
+			}
 		}
+		
 		return status;
 	}
 

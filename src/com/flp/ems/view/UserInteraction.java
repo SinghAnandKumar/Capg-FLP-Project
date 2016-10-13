@@ -18,6 +18,7 @@ public class UserInteraction {
 	String stringTemp;
 	Long longTemp;
 	int intTemp;
+	private String kinIds[];
 
 	public boolean addEmployee() {
 		boolean status = false;
@@ -184,9 +185,12 @@ public class UserInteraction {
 
 	public boolean removeEmployee() {
 		boolean status = false;
+		kinIds = null;
+		String k;
 		System.out.println("Enter Kin ID : ");
-		String kinId = sc.next();
-		status = services.removeEmployee(kinId);
+    	 k = sc.next();
+    	kinIds[0] = k;
+		status = services.removeEmployee(kinIds);
 		return status;
 	}
 

@@ -9,7 +9,7 @@ public interface IemployeeDao {
 
 	public boolean modifyEmployee(Employee employee);
 
-	public boolean removeEmployee(String kinId);
+	public boolean removeEmployee(String[] kinId);
 
 	public Employee searchEmployee(String type,String value);
 	

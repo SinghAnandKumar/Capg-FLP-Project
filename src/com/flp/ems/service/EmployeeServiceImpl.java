@@ -88,8 +88,8 @@ public class EmployeeServiceImpl implements IemployeeService {
 	}
 
 	@Override
-	public boolean removeEmployee(String kinId) {
-		boolean status = employeeDao.removeEmployee(kinId);
+	public boolean removeEmployee(String[] kinIds) {
+		boolean status = employeeDao.removeEmployee(kinIds);
 		return status;
 	}
 

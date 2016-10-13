@@ -30,13 +30,14 @@ public class EmployeeDaoImplForList implements IemployeeDao, Cloneable {
 	}
 
 	@Override /// REMOVING AN EMPLOYEE
-	public boolean removeEmployee(String kinId) {
-		int index = indexOf(Constants.empId, kinId);
-		if (index != -1) {
-			employees.remove(index);
-			return true;
+	public boolean removeEmployee(String[] kinIds) {
+		for(String kinId : kinIds){
+			int index = indexOf(Constants.empId, kinId);
+			if (index != -1) {
+				Employee emp = employees.remove(index);
+			}
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -49,11 +50,22 @@ public class EmployeeDaoImplForList implements IemployeeDao, Cloneable {
 
 		return emp;
 	}
+	
+	@Override
+	public Employee searchEmployeeById(int empId) {
+		Employee emp=null;
+		
+		emp = employees.get(empId);
+		
+		try {
+			return emp.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
-	/*
-	 * @Override public Employee searchEmployee(String type, String value) {
-	 * getEmployee(type, value) return emp; }
-	 */
 
 	@Override
 	public Employee searchEmployee(String type, String value) {
@@ -125,5 +137,6 @@ public class EmployeeDaoImplForList implements IemployeeDao, Cloneable {
 
 		return -1;
 	}
+
 
 }
