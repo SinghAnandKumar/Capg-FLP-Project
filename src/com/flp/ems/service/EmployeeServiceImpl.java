@@ -19,15 +19,20 @@ public class EmployeeServiceImpl implements IemployeeService {
 	// employeeDao = new EmployeeDaoImplForDB();
 
 	public EmployeeServiceImpl() {
-		try {
+		/*try {
 			employeeDao = new EmployeeDaoImplForDB();
 			
 		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 
+	
+	public void setEmployeeDao(EmployeeDaoImplForDB employeeDao){
+		this.employeeDao = employeeDao;
+	}
+	
 	@Override
 	public boolean addEmployee(HashMap<String, String> employeeData) {
 		employee = new Employee();

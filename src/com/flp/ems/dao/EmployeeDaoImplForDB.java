@@ -11,12 +11,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import com.flp.ems.domain.Employee;
 import com.flp.ems.util.Constants;
+import com.flp.ems.util.ServiceLocator;
+import com.flp.ems.util.ServiceLocatorException;
 import com.flp.ems.util.Utils;
 
 public class EmployeeDaoImplForDB implements IemployeeDao {
 
+	String dataSourceJndiName = "jdbc/EMSDataSource";
+    DataSource dataSource = null;
+	
 	ArrayList<Integer> existingDepartments = null;
 	ArrayList<Integer> existingProjects = null;
 	ArrayList<Integer> existingRoles = null;
@@ -25,9 +32,20 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 	Utils utils = null;
 
 	public EmployeeDaoImplForDB() throws IOException, SQLException {
-		loadData();
+	
+/*		try {
+			
+			dataSource = ServiceLocator.getDataSource(dataSourceJndiName);
+		} catch (ServiceLocatorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} */
 	}
 
+	public void setDataSource(DataSource dataSource){
+		this.dataSource = dataSource;
+	}
+	
 	@Override
 	public boolean addEmployee(Employee employee) {
 		String insertQuery = props.getProperty("jdbc.query.insertEmployee");
@@ -281,16 +299,19 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 	}
 
 	// LOADS EXISTING DATA
-	private void loadData() throws IOException, SQLException{
+	private void loadData() throws IOException, SQLException, ClassNotFoundException{
 		existingDepartments = new ArrayList<>();
 		existingProjects = new ArrayList<>();
 		existingRoles = new ArrayList<>();
 		utils = new Utils();
 		
 		props = utils.getProperties();
+		
 
 		//GETS DATABASE CONNECTION FROM UTILS CLASS
+		Class.forName("com.mysql.jdbc.Driver");
 		String url = props.getProperty("jdbc.url");
+//		String url = "jdbc:mysql://localhost:3306/test";
 		dbConnection = DriverManager.getConnection(url,"root","anand@MYSQL02");
 		System.out.println("Connection succesfull ? " + (dbConnection != null));
 
