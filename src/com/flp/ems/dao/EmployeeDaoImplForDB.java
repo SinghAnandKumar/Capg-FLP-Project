@@ -31,15 +31,15 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 	Connection dbConnection = null;
 	Utils utils = null;
 
-	public EmployeeDaoImplForDB() throws IOException, SQLException {
-	
-/*		try {
+	public EmployeeDaoImplForDB() throws IOException, SQLException, ClassNotFoundException {
+		loadData();
+		try {
 			
 			dataSource = ServiceLocator.getDataSource(dataSourceJndiName);
 		} catch (ServiceLocatorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} */
+		} 
 	}
 
 	public void setDataSource(DataSource dataSource){
@@ -105,16 +105,7 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 		String updateQuery = props.getProperty("jdbc.query.updateEmployee");
 		int row = 0;
 		boolean status = false;
-		// UPDATE QUERY NOT USED ,AS GIVEN IN DOC
-		/*status = removeEmployee(employee.getKinId());
-
-		if (status) {
-			status = false;
-			status = addEmployee(employee);
-		}
-
-		return status;*/
-		
+				
 		try (PreparedStatement updateStatement = dbConnection.prepareStatement(updateQuery)) {
 		
 			updateStatement.setString(1, employee.getName());
@@ -124,7 +115,7 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 			updateStatement.setString(5, employee.getAddress());
 			updateStatement.setInt(6, employee.getDeptId());
 			updateStatement.setInt(7, employee.getProjectId());
-			updateStatement.setInt(8, employee.getEmpId());
+			updateStatement.setInt(8, employee.getRoleId());
 			
 			updateStatement.setInt(9, employee.getEmpId());
 			
@@ -141,15 +132,18 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 	}
 
 	@Override
-	public boolean removeEmployee(String[] kinIds) {
+	public boolean removeEmployee(String[] empIds) {
 		String deleteQuery = props.getProperty("jdbc.query.deleteEmployee");
-		int row = 0;
+		int row = 0,empId;
 		boolean status = false;
 
-		for(String kinId : kinIds){
+		for(String SempId : empIds){
+			
+			empId = Integer.parseInt(SempId);
+			System.out.println(empId);
 			try (PreparedStatement deleteStatement = dbConnection.prepareStatement(deleteQuery)) {
 	
-				deleteStatement.setString(1, kinId);
+				deleteStatement.setInt(1, empId);
 				row = deleteStatement.executeUpdate();
 	
 				if (row > 0)
@@ -283,7 +277,7 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 	private int getLatestAutoKey(){
 		int key=0;
 		
-		String selectQuery=props.getProperty("jdbc.query.lastEmpId");
+		String selectQuery=props.getProperty("jdbc.query.lastEmpID");
 		try(Statement selectStatement = dbConnection.createStatement()){
 			
 			ResultSet rs = selectStatement.executeQuery(selectQuery);
@@ -306,13 +300,11 @@ public class EmployeeDaoImplForDB implements IemployeeDao {
 		utils = new Utils();
 		
 		props = utils.getProperties();
-		
 
 		//GETS DATABASE CONNECTION FROM UTILS CLASS
 		Class.forName("com.mysql.jdbc.Driver");
 		String url = props.getProperty("jdbc.url");
-//		String url = "jdbc:mysql://localhost:3306/test";
-		dbConnection = DriverManager.getConnection(url,"root","anand@MYSQL02");
+		dbConnection = DriverManager.getConnection(url,"anand","anand");
 		System.out.println("Connection succesfull ? " + (dbConnection != null));
 
 		// TO INSERT DUMMY DATA FOR DEPARTMENT, ROLE AND PROJECT TABLES

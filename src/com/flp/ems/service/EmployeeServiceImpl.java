@@ -19,13 +19,16 @@ public class EmployeeServiceImpl implements IemployeeService {
 	// employeeDao = new EmployeeDaoImplForDB();
 
 	public EmployeeServiceImpl() {
-		/*try {
+		try {
 			employeeDao = new EmployeeDaoImplForDB();
 			
 		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -59,8 +62,7 @@ public class EmployeeServiceImpl implements IemployeeService {
 	}
 
 	@Override
-	public boolean modifyEmployee(HashMap<String, String> employee) {
-		Employee emp = employeeDao.searchEmployee(Constants.kinId, employee.get(Constants.kinId));
+	public boolean modifyEmployee(HashMap<String, String> employee, Employee emp) {
 
 		Set<Map.Entry<String, String>> mapItr = employee.entrySet();
 		for (Map.Entry<String, String> e : mapItr) {
@@ -92,6 +94,48 @@ public class EmployeeServiceImpl implements IemployeeService {
 		return status;
 	}
 
+	//USED for Phase 2 
+	@Override
+	public boolean modifyEmployee(HashMap<String, String> employee) {
+		Employee emp = employeeDao.searchEmployee(Constants.kinId, employee.get(Constants.kinId));
+		
+		Set<Map.Entry<String, String>> mapItr = employee.entrySet();
+		for (Map.Entry<String, String> e : mapItr) {
+
+			// USER CAN'T MODIFY KINID, IT IS SET BY THE SYSTEM
+			if (e.getKey().equals(Constants.name))
+				emp.setName(e.getValue());
+			/*else if (e.getKey().equals(Constants.emailId))
+				emp.setEmailId(e.getValue());*/
+			else if (e.getKey().equals(Constants.phoneNo))
+				emp.setPhoneNo(Long.parseLong(e.getValue()));
+			else if (e.getKey().equals(Constants.dateOfBirth))
+				emp.setDateOfBirth(e.getValue());
+			else if (e.getKey().equals(Constants.dateOfJoining))
+			{
+				System.out.println(e.getValue());
+				emp.setDateOfJoining(e.getValue());
+				System.out.println(emp.getDateOfJoining());
+				
+			}
+			else if (e.getKey().equals(Constants.address))
+				emp.setAddress(e.getValue());
+			else if (e.getKey().equals(Constants.departmentId))
+				emp.setDeptId(Integer.parseInt(e.getValue()));
+			else if (e.getKey().equals(Constants.projectId))
+				emp.setProjectId(Integer.parseInt(e.getValue()));
+			else if (e.getKey().equals(Constants.roleId))
+				emp.setRoleId(Integer.parseInt(e.getValue()));
+			else
+				System.out.println("Invalid Modification ");
+		}
+
+		boolean status = employeeDao.modifyEmployee(emp);
+		return status;
+	}
+
+	
+	
 	@Override
 	public boolean removeEmployee(String[] kinIds) {
 		boolean status = employeeDao.removeEmployee(kinIds);

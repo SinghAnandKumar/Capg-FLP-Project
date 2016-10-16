@@ -27,11 +27,7 @@ public class Utils {
 		// LOAD PROPERTIES FILE
 		props = new Properties();
 
-		//FileInputStream fis = new FileInputStream("dbDetails.properties");
-		//ClassLoader classLoader = getClass().getClassLoader();
-//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream("dbDetails.properties");
-		System.out.println(input);
 		props.load(input);
 
 		return props;

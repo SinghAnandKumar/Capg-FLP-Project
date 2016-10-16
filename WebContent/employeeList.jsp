@@ -9,17 +9,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>List of All Employees In the Organisation</title>
+  <link rel="stylesheet" type="text/css" href="default.css">
+
+  <script language="JavaScript">
+      function checkAll(field)
+      {
+          for (i=0; i < field.length; i++)
+          {
+              field[i].checked = true;
+          }
+      }
+  </script>
+
 </head>
 <body>
 
- 	<p><a href="controller?action=addNewEmp">[Add New Employee]</a></p>
+ 	<p><a href="controller?action=addEmployee">[Add New Employee]</a></p>
  	<p><a href="controller?action=homePage">[Go To Home page]</a></p>
   
   <form name="deleteForm" method="post" action="controller">
-  		<input type="hidden" name="action" value="deleteEmp" />
-  	<table>
+  		<input type="hidden" name="action" value="deleteEmployee" />
+  	<table border = "1">
     	<tr>
-    	  	<th><a href="javascript:checkAll(document.deleteForm.id)">Select All</a></th>
+    	  	<th><a href="javascript:checkAll(document.deleteForm.empId)">Select All</a></th>
     	  	<th>Emp ID</th>
 	      	<th>Kin ID</th>
       		<th>Name </th>
@@ -31,14 +43,13 @@
       		<th>Department ID</th>
       		<th>Project ID</th>
       		<th>Role ID</th>
-			<th>Action</th>      		
       		
     	</tr>
     
     
     <c:forEach items='${empList}' var='emp' >
       <tr>
-      <td><input type="checkbox" name="empId" value="${emp.getEmpId()}"></td>
+      <td><input type="checkbox" name="empId" value="${emp.getEmpId()}">${emp.getEmpId()}</td>
       <td>${emp.getKinId()}</td>
       <td>${emp.getName()}</td>
       <td>${emp.getEmailId()}</td>
@@ -49,12 +60,12 @@
       <td>${emp.getDeptId()}</td>
       <td>${emp.getProjectId()}</td>
       <td>${emp.getRoleId()}</td>
-      <td><a href="controller?action=modifyEmployee&id=${emp.getEmpId()}">Modify</a></td>
+      <td><a href="controller?action=modifyEmployee&empId=${emp.getEmpId()}">Modify</a></td>
       </tr>
     </c:forEach>
     
     <tr>
-      <td colspan="5">
+      <td colspan="12">
         <input type="submit" name="Delete Checked" value="Delete Checked" />
         &nbsp;&nbsp;
         <input type="reset" name="Reset" value="Reset" />

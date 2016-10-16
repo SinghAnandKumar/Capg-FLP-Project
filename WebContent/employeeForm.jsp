@@ -11,10 +11,10 @@
 <body>
 
 <form method="post" action="controller">
-<input type="hidden" name="action" value="saveEmp">
-<input type="hidden" name="id" value='${emp.Id}'>
+<input type="hidden" name="action" value="saveEmployee">
+<input type="hidden" name="empId" value='${emp.getEmpId()}'>
 
-<p><a href="controller?action=viewEmpList">[Return to List]</a></p>
+<p><a href="controller?action=showAllEmployees">[Return to List]</a></p>
 <p><a href="controller?action=homePage">[Go To Home page]</a></p>
 
 Enter/Modify Employee data :
@@ -22,12 +22,12 @@ Enter/Modify Employee data :
 
 	<tr>
 		<td>Employee ID : </td>
-		<td><input type="text" name="empId" value="${emp.getEmpId()}"  readonly="readonly"/></td>
+		<td><input type="text" name="empId" value="${emp.getEmpId()}"  readonly="readonly" disabled="disabled"/></td>
 	</tr>
 	
 	<tr>
 		<td>Kin ID : </td>
-		<td><input type="text" name="kinId" value="${emp.getKinId()}" readonly="readonly"/></td>
+		<td><input type="text" name="kinId" value="${emp.getKinId()}" readonly="readonly" disabled="disabled"/></td>
 	</tr>
 
 	<tr>
@@ -37,7 +37,7 @@ Enter/Modify Employee data :
 	
 	<tr>
 		<td>Email ID : </td>
-		<td><input type="text" name="emailId" value="${emp.getEmailId()}" readonly="readonly" /></td>
+		<td><input type="text" name="emailId" value="${emp.getEmailId()}" readonly="readonly" disabled="disabled"/></td>
 	</tr>
 	
 	<tr>
@@ -51,8 +51,7 @@ Enter/Modify Employee data :
 	</tr>
 	
 	<tr>
-		<td>Date Of Joining
-		 : </td>
+		<td>Date Of Joining : </td>
 		<td><input type="text" name="dateOfJoining" value="${emp.getDateOfJoining()}" /></td>
 	</tr>
 	
@@ -63,7 +62,7 @@ Enter/Modify Employee data :
 	
 	<tr>
 		<td>Department ID : </td>
-		<td><input type="text" name="departmentId" value="${emp.getDepartmentId()}"/></td>
+		<td><input type="text" name="deptId" value="${emp.getDeptId()}"/></td>
 	</tr>
 	
 	<tr>

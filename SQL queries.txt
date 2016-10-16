@@ -8,7 +8,7 @@ Creating Employee Table
 			FOREIGN KEY (projectId) REFERENCES Project(projectId),
 			FOREIGN KEY (roleId) REFERENCES Role(roleId));
 			
-
+	
 			
 2)CREATE TABLE IF NOT EXISTS Department(deptId int(6) PRIMARY KEY, deptName varchar(20),deptDescription varchar(50));
 
